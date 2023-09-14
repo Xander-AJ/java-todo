@@ -4,7 +4,7 @@ pipeline {
         gradle "Gradle 8.3"
     }
     environment {
-        HEROKU_API_KEY = credentials('heroku-api-key')
+        HEROKU_API_KEY = credentials('heroku-api-key') // Use the credential ID
         APP_NAME = 'todo-java'
         HEROKU_GIT_URL = 'https://git.heroku.com/todo-java.git'
         GITHUB_REPO_URL = 'https://github.com/Xander-AJ/java-todo'
