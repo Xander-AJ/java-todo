@@ -1,31 +1,37 @@
 pipeline {
     agent any
-    tools { 
-    gradle "Gradle 8.3"
-  }
+    tools {
+        gradle "Gradle_8.3"
+    }
     environment {
         HEROKU_API_KEY = credentials('heroku-api-key')
         APP_NAME = 'todo-java'
+        HEROKU_GIT_URL = 'https://git.heroku.com/todo-java.git'
+        GITHUB_REPO_URL = 'https://github.com/Xander-AJ/java-todo'
+    }
     stages {
         stage('Clone repository') {
             steps {
-                // Note: You need to close the single-quote for the git command
-                git 'https://github.com/Xander-AJ/java-todo'
+                git url: "${GITHUB_REPO_URL}"
             }
         }
         stage('Build project') {
             steps {
-                // Make sure you have 'Gradle' installed on the agent machine
                 sh 'gradle build'
             }
         }
         stage('Tests') {
-            steps { 
+            steps {
                 sh 'gradle test'
             }
         }
         stage('Deploy to Heroku') {
             steps {
-                sh 'git push https://git.heroku.com/todo-java.git
+                withCredentials([string(credentialsId: 'heroku-api-key', variable: 'HEROKU_API_KEY')]) {
+                    sh "git remote add heroku ${HEROKU_GIT_URL}"
+                    sh 'git push heroku master'
+                }
+            }
+        }
     }
-}    
+}
