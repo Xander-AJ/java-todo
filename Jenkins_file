@@ -1,7 +1,7 @@
 pipeline {
     agent any
     tools {
-        gradle "Gradle_8.3"
+        gradle "Gradle 8.3"
     }
     environment {
         HEROKU_API_KEY = credentials('your-heroku-api-key-credential-id')
