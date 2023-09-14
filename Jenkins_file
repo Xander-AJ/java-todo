@@ -1,0 +1,25 @@
+pipeline {
+    agent any
+    tools { 
+    gradle "Gradle 8.3"
+  }
+    stages {
+        stage('Clone repository') {
+            steps {
+                // Note: You need to close the single-quote for the git command
+                git 'https://github.com/Xander-AJ/java-todo'
+            }
+        }
+        stage('Build project') {
+            steps {
+                // Make sure you have 'Gradle' installed on the agent machine
+                sh 'gradle build'
+            }
+        }
+        stage('Tests') {
+            steps { 
+                sh 'gradle test'
+            }
+        }
+    }
+}    
