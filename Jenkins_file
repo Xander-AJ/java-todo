@@ -8,11 +8,13 @@ pipeline {
         APP_NAME = 'todo-java'
         HEROKU_GIT_URL = 'https://git.heroku.com/todo-java.git'
         GITHUB_REPO_URL = 'https://github.com/Xander-AJ/java-todo'
+        GITHUB_CREDENTIALS_ID = 'Xander-AJ' // Replace with your GitHub credential ID
     }
     stages {
         stage('Clone repository') {
             steps {
-                git url: "${GITHUB_REPO_URL}"
+                // Clone the GitHub repository using the generic 'git' step
+                git credentialsId: GITHUB_CREDENTIALS_ID, url: GITHUB_REPO_URL
             }
         }
         stage('Build project') {
