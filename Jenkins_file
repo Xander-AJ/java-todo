@@ -1,10 +1,10 @@
 pipeline {
     agent any
     tools {
-        gradle "Gradle 8.3"
+        gradle "Gradle_8.3"
     }
     environment {
-        HEROKU_API_KEY = credentials('heroku-api-key') // Use the credential ID
+        HEROKU_API_KEY = credentials('your-heroku-api-key-credential-id')
         APP_NAME = 'todo-java'
         HEROKU_GIT_URL = 'https://git.heroku.com/todo-java.git'
         GITHUB_REPO_URL = 'https://github.com/Xander-AJ/java-todo'
@@ -25,9 +25,23 @@ pipeline {
                 sh 'gradle test'
             }
         }
+        stage('Debug Git Configuration') {
+            steps {
+                sh 'git config --global user.email'
+                sh 'git config --global user.name'
+                sh 'git config --global credential.helper'
+            }
+        }
+        stage('Configure Git') {
+            steps {
+                sh 'git config --global user.email "xander.kamau7@gmail.com"'
+                sh 'git config --global user.name "Xander-AJ"'
+                sh 'git config --global --unset credential.helper'
+            }
+        }
         stage('Deploy to Heroku') {
             steps {
-                withCredentials([string(credentialsId: 'heroku-api-key', variable: 'HEROKU_API_KEY')]) {
+                withCredentials([string(credentialsId: 'your-heroku-api-key-credential-id', variable: 'HEROKU_API_KEY')]) {
                     sh "git remote add heroku ${HEROKU_GIT_URL}"
                     sh 'git push heroku master'
                 }
