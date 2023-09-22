@@ -4,11 +4,8 @@ pipeline {
         gradle "Gradle 8.3"
     }
     environment {
-        HEROKU_API_KEY = credentials('heroku-api-key')
-        APP_NAME = 'todo-java'
-        HEROKU_GIT_URL = 'https://git.heroku.com/todo-java.git'
         GITHUB_REPO_URL = 'https://github.com/Xander-AJ/java-todo'
-        GITHUB_CREDENTIALS_ID = 'Xander-AJ' 
+        GITHUB_CREDENTIALS_ID = 'Xander-AJ'
     }
     stages {
         stage('Clone repository') {
@@ -25,14 +22,6 @@ pipeline {
         stage('Tests') {
             steps {
                 sh 'gradle test'
-            }
-        }
-        stage('Deploy to Heroku') {
-            steps {
-                withCredentials([string(credentialsId: 'heroku-api-key', variable: 'HEROKU_API_KEY')]) {
-                    sh "heroku git:remote -a todo-java"
-                    sh 'git push heroku master'
-                }
             }
         }
     }
