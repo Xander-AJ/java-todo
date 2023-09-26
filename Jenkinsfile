@@ -14,15 +14,16 @@ pipeline {
                 git credentialsId: GITHUB_CREDENTIALS_ID, url: GITHUB_REPO_URL
             }
         }
-        stage('Build project') {
-            steps {
-                sh 'gradle build'
-            }
-        }
         stage('Tests') {
             steps {
                 sh 'gradle test'
             }
         }
+        stage('Build project') {
+            steps {
+                sh 'gradle build'
+            }
+        }
+        
     }
 }
