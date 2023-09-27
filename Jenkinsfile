@@ -1,5 +1,9 @@
 pipeline {
     agent any
+    tools {
+        // Specify the Gradle tool
+        gradle 'Gradle 8.3'
+    }
     environment {
         GITHUB_REPO_URL = 'https://github.com/Xander-AJ/java-todo'
         GITHUB_CREDENTIALS_ID = 'Xander-AJ'
@@ -9,12 +13,6 @@ pipeline {
             steps {
                 // Clone the GitHub repository using the generic 'git' step
                 git credentialsId: GITHUB_CREDENTIALS_ID, url: GITHUB_REPO_URL
-            }
-        }
-        stage('Install Gradle') {
-            steps {
-                // Install Gradle tool
-                tool name: 'Gradle 8.3', type: 'Gradle'
             }
         }
         stage('Tests') {
